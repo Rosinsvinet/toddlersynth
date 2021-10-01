@@ -6,6 +6,7 @@ const LED_NAMES = {
 }
 
 const FLASH_TIME = 800;
+const DEBOUNCE_TIME = 50;
 
 // red led
 const BEAT_LED = new Gpio(4, 'out');
@@ -13,7 +14,7 @@ const BEAT_LED = new Gpio(4, 'out');
 // green led
 const RESTART_LED = new Gpio(3, 'out');
 
-const BASS_1 = new Gpio(21, 'in', 'both');
+const BASS_1 = new Gpio(21, 'in', 'both', {debounceTimeout: DEBOUNCE_TIME});
 
 const toggleLed = (led) => {
     led.writeSync(led.readSync() ^ 1);
