@@ -1,0 +1,37 @@
+devplan
+
+1. control 2 leds
+    flash beat 1/sec
+    flash restart 1/5 sec
+
+2. control 2 leds + detect connected jack sockets
+    no con:
+    flash beat 1/sec
+
+    con:
+    flash restart 1/sec
+
+3. control 2 leds + detect connections [2, 2]
+    [
+        [1, 2],
+        [bass, guitar]
+    ]
+
+    bass 0:
+        no beat flash
+    bass 1:
+        beat flash 1/2sec
+    bass 2:
+        beat flash 1/sec
+
+    guitar 0:
+        no restart flash
+    guitar 1:
+        restart flash 1/2sec
+    guitar 2:
+        restart flash 1/sec
+
+4. create final schematic: 2 leds connections [4, 4]
+    output info to screen
+
+5.  connect with pd

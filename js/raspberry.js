@@ -7,8 +7,11 @@ const LED_NAMES = {
 
 const FLASH_TIME = 800;
 
+// red led
 const BEAT_LED = new Gpio(4, 'out');
-const RESTART_LED = new Gpio(17, 'out');
+
+// green led
+const RESTART_LED = new Gpio(3, 'out');
 
 const toggleLed = (led) => {
     led.writeSync(led.readSync() ^ 1);
@@ -38,7 +41,7 @@ const flashLed = (led) => {
     }
 };
 
-const disconnectPins = (cb) => {
+const disconnectPins = () => {
     BEAT_LED.unexport();
     RESTART_LED.unexport();
 }
