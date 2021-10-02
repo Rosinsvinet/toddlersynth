@@ -1,5 +1,11 @@
 import RPI from './js/raspberry.js';
-const rpi = new RPI();
+const rpi = new RPI((change) => {
+    if (change.instrument) {
+        console.log(`now ${change.color} has been connected to ${change.instrument}`);
+    } else {
+        console.log(`now ${change.color} has been disconnected`);
+    }
+});
 
 console.log('starting up...')
 rpi.start();

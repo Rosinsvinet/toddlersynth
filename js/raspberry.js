@@ -12,10 +12,20 @@ const INSTRUMENT = {
     KEYBOARD: 'KEYBOARD'
 };
 
-const COLORS = {
+const INSTRUMENTS = [
+    INSTRUMENT.BASS,
+    INSTRUMENT.GUITAR
+];
+
+const COLOR = {
     GREEN: 'GREEN',
     BLUE: 'BLUE'
 };
+
+const COLORS = [
+    COLOR.GREEN,
+    COLOR.BLUE
+];
 
 const FLASH_TIME = 800;
 const CYCLE_TIME = 200;
@@ -34,20 +44,25 @@ const DRUMS_IN = new Gpio(16, 'in', 'both', {debounceTimeout: DEBOUNCE_TIME});
 const KEYBOARD_IN = new Gpio(12, 'in', 'both', {debounceTimeout: DEBOUNCE_TIME});
 */
 
-const GREEN = new Gpio(26, 'out');
-const BLUE = new Gpio(19, 'out');
+const GREEN_OUT = new Gpio(26, 'out');
+const BLUE_OUT = new Gpio(19, 'out');
 /*
 const RED = new Gpio( 13 ,'out');
 const YELLOW = new Gpio( 6 ,'out');
 */
 
-const COLOR_PINS = [GREEN, BLUE];
+const COLOR_PINS = {
+    'green': GREEN_OUT,
+    'blue': BLUE_OUT
+}
 
 class RPI {
-    constructor() {
+    constructor(cb) {
+        this.cb = cb;
+
         this.isRunning = false;
         this.interval = null;
-        this.currentColor = -1;
+        this.currentColorIdx = -1;
 
         this.bassData = [
             // green
@@ -66,6 +81,13 @@ class RPI {
             []
         ];
 
+        this.conectionState = {
+            green: null,
+            blue: null,
+            yellow: null,
+            purple: null
+        };
+
         BASS_IN.watch((err, value) => {
             if (err) {
                 console.error('There was an error', err);
@@ -73,7 +95,7 @@ class RPI {
             }
 
             if (this.isRunning) {
-                this.bassData[this.currentColor].push(value);
+                this.bassData[this.currentColorIdx].push(value);
             }
         });
 
@@ -84,7 +106,7 @@ class RPI {
             }
 
             if (this.isRunning) {
-                this.guitarData[this.currentColor].push(value);
+                this.guitarData[this.currentColorIdx].push(value);
             }
         });
 
@@ -123,54 +145,47 @@ class RPI {
         this.interval = setInterval(() => this.cycle(), CYCLE_TIME);
     }
 
+    getColorNameLC(idx) {
+        return COLORS[idx].toLowerCase();
+    }
+
     cycle() {
-        if (this.currentColor !== -1) {
+        let currentColorName = this.getColorNameLC(this.currentColorIdx);
+        
+        if (this.currentColorIdx !== -1) {
             // report states
-            console.log(
-                'is bass in currentColor?',
-                this.likelihood(this.currentColor, INSTRUMENT.BASS),
-                this.currentColor
-            );
-            console.log(
-                'is bass in currentColor?',
-                this.likelihood(this.currentColor, INSTRUMENT.BASS),
-                this.currentColor
-            );
-
-            const isBass = this.isOn(this.currentColor, INSTRUMENT.BASS);
-            const isGuitar = this.isOn(this.currentColor, INSTRUMENT.GUITAR);
-
-            // green
-            if (this.currentColor === 0) {
-                if (isBass) {
-                    console.log('Green Bass !');
-                }
-                if (isGuitar) {
-                    console.log('Green Guitar !');
+            let currentInstrument = null;
+            for (let i = 0; i < INSTRUMENTS.length; i++) {
+                const instr = INSTRUMENTS[i];
+                const isOn = this.isOn(this.currentColorIdx, instr);
+                if (isOn) {
+                    currentInstrument = instr;
+                    break;
                 }
             }
+            const prevInstrument = this.conectionState[currentColorName];
 
-            // blue
-            if (this.currentColor === 1) {
-                if (isBass) {
-                    console.log('Blue Bass !');
-                }
-                if (isGuitar) {
-                    console.log('Blue Guitar !');
-                }
+            // has a change been detected?
+            if (prevInstrument !== currentInstrument) {
+                this.cb({
+                    color: currentColorName,
+                    instrument: currentInstrument
+                });
             }
 
             // turn off pin from previous cycle
-            COLOR_PINS[this.currentColor].writeSync(0);
+            COLOR_PINS[currentColorName].writeSync(0);
         }
 
-        this.currentColor++;
-        if (this.currentColor === COLOR_PINS.length) {
-            this.currentColor = 0;
+        this.currentColorIdx++;
+
+        if (this.currentColorIdx === COLORS.length) {
+            this.currentColorIdx = 0;
         }
+        currentColorName = this.getColorNameLC(this.currentColorIdx);
 
         // turn on pin from current cycle
-        COLOR_PINS[this.currentColor].writeSync(1);
+        COLOR_PINS[currentColorName].writeSync(1);
     }
 
     isOn(color, instrument) {
@@ -206,8 +221,9 @@ class RPI {
         RESTART_LED.writeSync(0);
         RESTART_LED.unexport();
     
-        for (let i = 0; i < COLOR_PINS.length; i++) {
-            const clrpin = COLOR_PINS[i];
+        for (let i = 0; i < COLORS; i++) {
+            const clr = COLORS[i].toLowerCase();
+            const clrpin = COLOR_PINS[clr];
             clrpin.writeSync(0);
             clrpin.unexport();
         }
