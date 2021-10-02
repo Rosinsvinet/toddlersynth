@@ -57,8 +57,9 @@ const COLOR_PINS = {
 }
 
 class RPI {
-    constructor(cb) {
+    constructor(cb, debug) {
         this.cb = cb;
+        this.debug = debug;
 
         this.isRunning = false;
         this.interval = null;
@@ -154,6 +155,9 @@ class RPI {
         
         if (this.currentColorIdx !== -1) {
             currentColorName = this.getColorNameLC(this.currentColorIdx);
+            if(this.debug) {
+                console.log('finished cycle', this.currentColorIdx, this.debug);
+            }
 
             // report states
             let currentInstrument = null;
@@ -193,6 +197,9 @@ class RPI {
 
     isOn(color, instrument) {
         const avg = this.likelihood(color, instrument);
+        if (this.debug) {
+            console.log('likelihood', color, instrument, avg);
+        }
         return avg > 0.5;
     }
 

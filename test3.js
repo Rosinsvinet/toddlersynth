@@ -5,7 +5,7 @@ const rpi = new RPI((change) => {
     } else {
         console.log(`now ${change.color} has been disconnected`);
     }
-});
+}, true);
 
 console.log('starting up...')
 rpi.start();
