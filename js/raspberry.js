@@ -150,9 +150,11 @@ class RPI {
     }
 
     cycle() {
-        let currentColorName = this.getColorNameLC(this.currentColorIdx);
+        let currentColorName;
         
         if (this.currentColorIdx !== -1) {
+            currentColorName = this.getColorNameLC(this.currentColorIdx);
+            
             // report states
             let currentInstrument = null;
             for (let i = 0; i < INSTRUMENTS.length; i++) {
