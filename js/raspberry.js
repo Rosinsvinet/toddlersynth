@@ -120,7 +120,7 @@ class RPI {
 
     start() {
         this.isRunning = true;
-        this.interval = setInterval(this.cycle, CYCLE_TIME);
+        this.interval = setInterval(() => this.cycle(), CYCLE_TIME);
     }
 
     cycle() {
