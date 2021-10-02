@@ -154,7 +154,7 @@ class RPI {
         
         if (this.currentColorIdx !== -1) {
             currentColorName = this.getColorNameLC(this.currentColorIdx);
-            
+
             // report states
             let currentInstrument = null;
             for (let i = 0; i < INSTRUMENTS.length; i++) {
@@ -169,6 +169,7 @@ class RPI {
 
             // has a change been detected?
             if (prevInstrument !== currentInstrument) {
+                this.conectionState[currentColorName] = currentInstrument;
                 this.cb({
                     color: currentColorName,
                     instrument: currentInstrument
