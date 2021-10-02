@@ -170,7 +170,7 @@ class RPI {
         }
 
         // turn on pin from current cycle
-        COLOR_PINS[this.currentColor] = writeSync(1);
+        COLOR_PINS[this.currentColor].writeSync(1);
     }
 
     isOn(color, instrument) {
