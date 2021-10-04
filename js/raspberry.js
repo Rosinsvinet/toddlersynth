@@ -156,7 +156,7 @@ class RPI {
         if (this.currentColorIdx !== -1) {
             currentColorName = this.getColorNameLC(this.currentColorIdx);
             if(this.debug) {
-                console.log('finished cycle', this.currentColorIdx, this.debug);
+                console.log('finished cycle', this.currentColorIdx, currentColorName);
             }
 
             // report states
@@ -179,6 +179,10 @@ class RPI {
                     instrument: currentInstrument
                 });
             }
+
+            // delete cycle data
+            this.bassData[this.currentColorIdx] = [];
+            this.guitarData[this.currentColorIdx] = [];
 
             // turn off pin from previous cycle
             COLOR_PINS[currentColorName].writeSync(0);
@@ -208,10 +212,8 @@ class RPI {
 
         if (instrument === INSTRUMENT.BASS) {
             valuesFromCycle = this.bassData[color];
-            this.bassData[color] = [];
         } else if (instrument === INSTRUMENT.GUITAR) {
             valuesFromCycle = this.guitarData[color];
-            this.guitarData[color] = [];
         }
         const sum = valuesFromCycle.reduce((a, b) => a + b, 0);
         const avg = (sum / valuesFromCycle.length) || 0;
