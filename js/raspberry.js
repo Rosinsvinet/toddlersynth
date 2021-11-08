@@ -199,7 +199,6 @@ class RPI {
         }
 
         for (const instrument of INSTRUMENTS) {
-            INSTRUMENT_PINS[instrument].writeSync(0);
             INSTRUMENT_PINS[instrument].unexport();
         }
     }
