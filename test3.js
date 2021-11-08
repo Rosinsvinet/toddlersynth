@@ -14,4 +14,3 @@ process.on('SIGINT', () => {
     rpi.stop();
     rpi.disconnectPints();
 });
-

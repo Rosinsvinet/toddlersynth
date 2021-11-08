@@ -149,7 +149,7 @@ class RPI {
         }
 
         // pick next color
-        const colorIdx = COLORS.indexOf(this.currentColor) // will give -1 if currentColor is null
+        let colorIdx = COLORS.indexOf(this.currentColor) // will give -1 if currentColor is null
         colorIdx ++;
 
         if (colorIdx === COLORS.length) {
@@ -225,7 +225,7 @@ class RPI {
             case LED_NAMES.RESTART: {
                 this._flashLed(RESTART_LED);
                 break
-            };
+            }
 
             default:
                 console.log('unknown led', led)
