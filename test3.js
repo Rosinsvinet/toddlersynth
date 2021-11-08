@@ -1,9 +1,11 @@
-import RPI from './js/raspberry.js';
+import RPI, { LED_NAMES } from './js/raspberry.js';
 const rpi = new RPI((change) => {
     if (change.instrument) {
         console.log(`now ${change.color} has been connected to ${change.instrument}`);
+        rpi.flashLed(LED_NAMES.BEAT);
     } else {
         console.log(`now ${change.color} has been disconnected`);
+        rpi.flashLed(LED_NAMES.RESTART);
     }
 }, false);
 
