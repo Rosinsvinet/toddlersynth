@@ -1,52 +1,40 @@
-import port from 'port';
-import KBTest from './js/keytest.js';
-import { LED_NAMES, flashLed, disconnectPins } from './js/raspberry.js';
+import PD from './js/pd.js';
+import RPI, { LED_NAMES } from './js/raspberry.js';
 
-const pd = port({
-	'read': 10004,
-	'write': 9006,
-	'encoding': 'ascii',
-	'basepath': process.cwd(),
-	'flags': {
-		//'nogui': true,
-		'stderr': true,
-		'send': 'pd dsp 1',
-		'open': './pd/main.pd'
-	}
-})
-.on('connect', function(){
-	console.log('on connect');
-})
-.on('data', function(data){
-	if (data.indexOf('beat') > -1) {
-		flashLed(LED_NAMES.BEAT);
-	}
-	if (data.indexOf('restart') > -1) {
-		flashLed(LED_NAMES.RESTART);
-	}
-})
-.on('stderr', function(buffer){
-	console.log('on stderr');
-	console.log(buffer.toString());
-})
-.on('destroy', function(){
-	disconnectPins(()=> {
-		console.log('good bye')
-		process.exit();
-	});
-})
-.create();
+const onRpiCon = (change) => {
+    if (change.instrument) {
+        console.log(`now ${change.color} has been connected to ${change.instrument}`);
+        pd.connection(change.color, change.instrument);
+    } else {
+        console.log(`now ${change.color} has been disconnected`);
 
-const kbTest = new KBTest((f,t) => {
-	if (pd && pd.isRunning()) {
-		const msg = `${f} ${t};\n`;
-		console.log(msg);
-		pd.write(msg);
-	} else {
-		console.log('connection not yet established')
-	}
-}, () => {
-	pd.destroy();
-	
+    }
+}
+/*
+    start rpi when pd is ready
+ */
+const onPdReady = () => {
+    rpi.start();
+}
+
+const onPdBeat = () => {
+    rpi.flashLed(LED_NAMES.BEAT);
+}
+
+const onPdRestart = () => {
+    rpi.flashLed(LED_NAMES.RESTART);
+}
+
+/*
+    disconnect rpi when pd is down
+*/
+const onPdDestroy = () => {
+    rpi.stop();
+    rpi.disconnectPints();
+}
+const rpi = new RPI(onRpiCon, false);
+const pd = new PD(onPdReady, onPdBeat, onPdRestart, onPdDestroy);
+
+process.on('SIGINT', () => {
+    pd.destroy();
 });
-console.log(process.cwd());

@@ -5,28 +5,28 @@ export const LED_NAMES = {
     RESTART: 'RESTART'
 }
 
-const INSTRUMENT = {
+export const INSTRUMENT = {
     BASS: 'BASS',
     GUITAR: 'GUITAR',
     DRUMS: 'DRUMS',
     KEYBOARD: 'KEYBOARD'
 };
 
-const INSTRUMENTS = [
+export const INSTRUMENTS = [
     INSTRUMENT.BASS,
     INSTRUMENT.GUITAR,
     INSTRUMENT.DRUMS,
     INSTRUMENT.KEYBOARD
 ];
 
-const COLOR = {
+export const COLOR = {
     GREEN: 'GREEN',
     RED: 'RED',
     BLUE: 'BLUE',
     PURPLE: 'PURPLE'
 };
 
-const COLORS = [
+export const COLORS = [
     COLOR.GREEN,
     COLOR.RED,
     COLOR.BLUE,
