@@ -14,3 +14,6 @@ nmap -sP 192.168.1.0/24
 ## resources for generating wav tracks
 https://soundation.com/
 https://online-audio-converter.com/ (ability to resample to 44100 used in pd)
+
+## copy tracks to pi
+scp -r pd/tracks pi@192.168.1.130:/home/pi/toddlersynth/pd
