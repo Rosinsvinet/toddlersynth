@@ -9,7 +9,7 @@ class PD {
             'encoding': 'ascii',
             'basepath': process.cwd(),
             'flags': {
-                //'nogui': true,
+                'nogui': true,
                 'stderr': true,
                 'send': 'pd dsp 1',
                 'open': './pd/main.pd'
