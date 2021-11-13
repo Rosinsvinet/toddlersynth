@@ -9,7 +9,7 @@
 #X msg 139 218 1;
 #X msg 92 218 0;
 #X obj 139 189 inlet;
-#X msg 78 105 open c:/projects/toddlersynth/pd/tracks/\$1.wav;
+#X msg 78 105 open tracks/\$1.wav;
 #X connect 1 0 5 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;
