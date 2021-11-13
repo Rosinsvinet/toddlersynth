@@ -1,0 +1,27 @@
+const INSTRUMENT = {
+    BASS: 'BASS',
+    GUITAR: 'GUITAR',
+    DRUMS: 'DRUMS',
+    KEYBOARD: 'KEYBOARD'
+};
+
+export const INSTRUMENTS = [
+    INSTRUMENT.BASS,
+    INSTRUMENT.GUITAR,
+    INSTRUMENT.DRUMS,
+    INSTRUMENT.KEYBOARD
+];
+
+const COLOR = {
+    GREEN: 'GREEN',
+    RED: 'RED',
+    BLUE: 'BLUE',
+    PURPLE: 'PURPLE'
+};
+
+export const COLORS = [
+    COLOR.GREEN,
+    COLOR.RED,
+    COLOR.BLUE,
+    COLOR.PURPLE
+];

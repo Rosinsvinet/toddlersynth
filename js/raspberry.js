@@ -1,37 +1,10 @@
 import { Gpio } from "onoff";
+import { INSTRUMENTS, COLORS } from "./colorsAndInstruments.js";
 
 export const LED_NAMES = {
     BEAT: 'BEAT',
     RESTART: 'RESTART'
 }
-
-export const INSTRUMENT = {
-    BASS: 'BASS',
-    GUITAR: 'GUITAR',
-    DRUMS: 'DRUMS',
-    KEYBOARD: 'KEYBOARD'
-};
-
-export const INSTRUMENTS = [
-    INSTRUMENT.BASS,
-    INSTRUMENT.GUITAR,
-    INSTRUMENT.DRUMS,
-    INSTRUMENT.KEYBOARD
-];
-
-export const COLOR = {
-    GREEN: 'GREEN',
-    RED: 'RED',
-    BLUE: 'BLUE',
-    PURPLE: 'PURPLE'
-};
-
-export const COLORS = [
-    COLOR.GREEN,
-    COLOR.RED,
-    COLOR.BLUE,
-    COLOR.PURPLE
-];
 
 const FLASH_TIME = 800;
 const CYCLE_TIME = 200;

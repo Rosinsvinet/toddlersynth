@@ -1,5 +1,5 @@
 import port from 'port';
-import { COLORS, INSTRUMENTS } from './raspberry.js';
+import { COLORS, INSTRUMENTS } from './colorsAndInstruments.js';
 
 class PD {
     constructor(onReady, onBeat, onRestart, onDestroy) {
