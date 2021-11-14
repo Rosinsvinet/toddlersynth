@@ -14,6 +14,7 @@ const onRpiCon = (change) => {
     start rpi when pd is ready
  */
 const onPdReady = () => {
+    console.log('pd connected');
     rpi.start();
 }
 
@@ -22,6 +23,7 @@ const onPdBeat = () => {
 }
 
 const onPdRestart = () => {
+    console.log('restart');
     rpi.flashLed(LED_NAMES.RESTART);
 }
 
