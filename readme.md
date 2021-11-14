@@ -19,4 +19,5 @@ https://online-audio-converter.com/ (ability to resample to 44100 used in pd)
 scp -r pd/tracks pi@192.168.1.130:/home/pi/toddlersynth/pd
 
 ## test audio
-pd pd/test.pd -nogui
+pd -nogui pd/test.pd 
+https://forums.raspberrypi.com/viewtopic.php?t=84128
